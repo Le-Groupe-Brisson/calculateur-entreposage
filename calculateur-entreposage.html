@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur d'Économies d'Entreposage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2c2c2c 0%, #666666 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #dc3545 0%, #000000 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .form-container {
+            padding: 40px;
+        }
+        
+        .step {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question {
+            margin-bottom: 30px;
+        }
+        
+        .question h3 {
+            font-size: 1.4em;
+            color: #000000;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .options {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+        
+        .option.selected {
+            border-color: #3498db;
+            background: #e3f2fd;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+        }
+        
+        .option-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+        
+        .option-text {
+            flex: 1;
+        }
+        
+        .option-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .option-desc {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #dc3545, #000000);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #666666;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #555555;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #dc3545, #000000);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        
+        .results {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .results h2 {
+            color: #000000;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+        }
+        
+        .insight {
+            background: linear-gradient(135deg, #666666, #2c2c2c);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .savings-highlight {
+            background: linear-gradient(135deg, #dc3545, #000000);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.3em;
+        }
+        
+        .cta {
+            background: linear-gradient(135deg, #000000, #dc3545);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        
+        .cta h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .contact-form {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .contact-form h4 {
+            color: #000000;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧮 Calculateur d'Économies</h1>
+            <p>Découvrez vos économies potentielles d'entreposage en 2 minutes</p>
+        </div>
+        
+        <div class="form-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <!-- Étape 1: Situation actuelle -->
+            <div class="step active" id="step1">
+                <div class="question">
+                    <h3><span class="step-number">1</span>Décrivez votre situation d'entreposage actuelle</h3>
+                    <div class="options">
+                        <div class="option" data-value="no-storage">
+                            <div class="option-icon">🏢</div>
+                            <div class="option-text">
+                                <div class="option-title">Pas d'entreposage externe</div>
+                                <div class="option-desc">Tout est stocké dans nos locaux</div>
+                            </div>
+                        </div>
+                        <div class="option" data-value="current-storage">
+                            <div class="option-icon">📦</div>
+                            <div class="option-text">
+                                <div class="option-title">Entreposage externe actuel</div>
+                                <div class="option-desc">Nous louons déjà un espace</div>
+                            </div>
+                        </div>
+                        <div class="option" data-value="multiple-locations">
+                            <div class="option-icon">🏪</div>
+                            <div class="option-text">
+                                <div class="option-title">Plusieurs emplacements</div>
+                                <div class="option-desc">Stockage réparti à différents endroits</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 2: Coûts actuels -->
+            <div class="step" id="step2">
+                <div class="question">
+                    <h3><span class="step-number">2</span>Combien dépensez-vous actuellement par mois ?</h3>
+                    <div class="input-group">
+                        <label>Coût mensuel total (incluant loyer, transport, manutention)</label>
+                        <input type="number" id="currentCost" placeholder="Ex: 2500" min="0">
+                    </div>
+                    <div class="options">
+                        <div class="option" data-range="0-1000">
+                            <div class="option-icon">💰</div>
+                            <div class="option-text">
+                                <div class="option-title">Moins de 1 000$/mois</div>
+                                <div class="option-desc">Petite entreprise / Stockage minimal</div>
+                            </div>
+                        </div>
+                        <div class="option" data-range="1000-3000">
+                            <div class="option-icon">💵</div>
+                            <div class="option-text">
+                                <div class="option-title">1 000$ - 3 000$/mois</div>
+                                <div class="option-desc">PME / Stockage modéré</div>
+                            </div>
+                        </div>
+                        <div class="option" data-range="3000+">
+                            <div class="option-icon">💸</div>
+                            <div class="option-text">
+                                <div class="option-title">Plus de 3 000$/mois</div>
+                                <div class="option-desc">Grande entreprise / Stockage important</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 3: Type de marchandises -->
+            <div class="step" id="step3">
+                <div class="question">
+                    <h3><span class="step-number">3</span>Que stockez-vous principalement ?</h3>
+                    <div class="options">
+                        <div class="option" data-value="documents">
+                            <div class="option-icon">📋</div>
+                            <div class="option-text">
+                                <div class="option-title">Documents & Archives</div>
+                                <div class="option-desc">Dossiers, boîtes de documents</div>
+                            </div>
+                        </div>
+                        <div class="option" data-value="pallets">
+                            <div class="option-icon">📦</div>
+                            <div class="option-text">
+                                <div class="option-title">Marchandises palettisées</div>
+                                <div class="option-desc">Produits sur palettes</div>
+                            </div>
+                        </div>
+                        <div class="option" data-value="equipment">
+                            <div class="option-icon">⚙️</div>
+                            <div class="option-text">
+                                <div class="option-title">Équipements & Machines</div>
+                                <div class="option-desc">Matériel industriel, outils</div>
+                            </div>
+                        </div>
+                        <div class="option" data-value="mixed">
+                            <div class="option-icon">📊</div>
+                            <div class="option-text">
+                                <div class="option-title">Mixte</div>
+                                <div class="option-desc">Plusieurs types de marchandises</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 4: Fréquence d'accès -->
+            <div class="step" id="step4">
+                <div class="question">
+                    <h3><span class="step-number">4</span>À quelle fréquence accédez-vous à vos biens ?</h3>
+                    <div class="options">
+                        <div class="option" data-value="daily">
+                            <div class="option-icon">🔄</div>
+                            <div class="option-text">
+                                <div class="option-title">Quotidien</div>
+                                <div class="option-desc">Accès tous les jours</div>
+                            </div>
+                        </div>
+                        <div class="option" data-value="weekly">
+                            <div class="option-icon">📅</div>
+                            <div class="option-text">
+                                <div class="option-title">Hebdomadaire</div>
+                                <div class="option-desc">Quelques fois par semaine</div>
+                            </div>
+                        </div>
+                        <div class="option" data-value="monthly">
+                            <div class="option-icon">📆</div>
+                            <div class="option-text">
+                                <div class="option-title">Mensuel</div>
+                                <div class="option-desc">Une à quelques fois par mois</div>
+                            </div>
+                        </div>
+                        <div class="option" data-value="rare">
+                            <div class="option-icon">🗄️</div>
+                            <div class="option-text">
+                                <div class="option-title">Occasionnel</div>
+                                <div class="option-desc">Rarement / Archivage long terme</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 5: Localisation -->
+            <div class="step" id="step5">
+                <div class="question">
+                    <h3><span class="step-number">5</span>Où est située votre entreprise ?</h3>
+                    <div class="input-group">
+                        <label>Ville</label>
+                        <select id="location">
+                            <option value="">Sélectionnez votre ville</option>
+                            <option value="laval">Laval</option>
+                            <option value="montreal">Montréal</option>
+                            <option value="longueuil">Longueuil</option>
+                            <option value="terrebonne">Terrebonne</option>
+                            <option value="repentigny">Repentigny</option>
+                            <option value="saint-jerome">Saint-Jérôme</option>
+                            <option value="other">Autre (région de Montréal)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Résultats -->
+            <div class="step" id="results">
+                <div class="results">
+                    <h2>🎯 Vos Résultats Personnalisés</h2>
+                    
+                    <div id="analysisResult">
+                        <!-- Les résultats seront générés ici -->
+                    </div>
+                    
+                    <div class="cta">
+                        <h3>🚀 Prêt à optimiser vos coûts ?</h3>
+                        <p>Contactez-nous pour une évaluation gratuite de vos besoins</p>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <h4>Recevez votre soumission personnalisée</h4>
+                        <div class="form-row">
+                            <input type="text" id="contactName" placeholder="Nom complet" required>
+                            <input type="text" id="contactCompany" placeholder="Nom de l'entreprise" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="email" id="contactEmail" placeholder="Email" required>
+                            <input type="tel" id="contactPhone" placeholder="Téléphone" required>
+                        </div>
+                        <button class="btn btn-primary" onclick="submitContact()" style="width: 100%; margin-top: 20px;">
+                            📞 Obtenir ma soumission gratuite
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" id="prevBtn" onclick="changeStep(-1)" style="display: none;">Précédent</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">Suivant</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let totalSteps = 5;
+        let userAnswers = {};
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function changeStep(direction) {
+            // Valider les réponses avant de continuer
+            if (direction > 0 && !validateCurrentStep()) {
+                return;
+            }
+            
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep += direction;
+            
+            if (currentStep > totalSteps) {
+                showResults();
+                return;
+            }
+            
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            updateProgress();
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            document.getElementById('prevBtn').style.display = currentStep > 1 ? 'block' : 'none';
+            document.getElementById('nextBtn').style.display = currentStep <= totalSteps ? 'block' : 'none';
+        }
+
+        function validateCurrentStep() {
+            switch(currentStep) {
+                case 1:
+                    return document.querySelector('#step1 .option.selected') !== null;
+                case 2:
+                    return document.querySelector('#step2 .option.selected') !== null;
+                case 3:
+                    return document.querySelector('#step3 .option.selected') !== null;
+                case 4:
+                    return document.querySelector('#step4 .option.selected') !== null;
+                case 5:
+                    return document.getElementById('location').value !== '';
+            }
+            return true;
+        }
+
+        function showResults() {
+            document.getElementById('results').classList.add('active');
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('prevBtn').style.display = 'none';
+            
+            generateAnalysis();
+        }
+
+        function generateAnalysis() {
+            let analysis = '';
+            let potentialSavings = 0;
+            
+            // Logique d'analyse basée sur les réponses
+            const situation = userAnswers.situation;
+            const costRange = userAnswers.costRange;
+            const storageType = userAnswers.storageType;
+            const accessFreq = userAnswers.accessFreq;
+            
+            // Analyse personnalisée sans révéler les prix
+            if (situation === 'current-storage') {
+                if (costRange === '3000+') {
+                    potentialSavings = 25;
+                    analysis = `
+                        <div class="insight">
+                            💡 <strong>Analyse :</strong> Avec vos coûts actuels élevés, nous identifions plusieurs opportunités d'optimisation significatives.
+                        </div>
+                        <div class="savings-highlight">
+                            💰 <strong>Économies potentielles :</strong> Jusqu'à ${potentialSavings}% de réduction possible sur vos coûts actuels
+                        </div>
+                        <div class="insight">
+                            🎯 <strong>Nos recommandations :</strong><br>
+                            • Solutions flexibles adaptées à votre fréquence d'accès<br>
+                            • Optimisation de l'espace selon votre type de marchandises<br>
+                            • Localisation stratégique pour réduire les frais de transport
+                        </div>
+                    `;
+                } else if (costRange === '1000-3000') {
+                    potentialSavings = 20;
+                    analysis = `
+                        <div class="insight">
+                            💡 <strong>Analyse :</strong> Votre budget actuel suggère des possibilités d'optimisation intéressantes.
+                        </div>
+                        <div class="savings-highlight">
+                            💰 <strong>Économies potentielles :</strong> ${potentialSavings}% d'économies réalisables
+                        </div>
+                        <div class="insight">
+                            🎯 <strong>Avantages identifiés :</strong><br>
+                            • Consolidation possible de vos espaces<br>
+                            • Services inclus qui réduisent vos coûts cachés<br>
+                            • Flexibilité pour ajuster selon vos besoins saisonniers
+                        </div>
+                    `;
+                } else {
+                    potentialSavings = 15;
+                    analysis = `
+                        <div class="insight">
+                            💡 <strong>Analyse :</strong> Même avec un budget modeste, des améliorations sont possibles.
+                        </div>
+                        <div class="savings-highlight">
+                            💰 <strong>Optimisation possible :</strong> ${potentialSavings}% d'amélioration sur vos coûts actuels
+                        </div>
+                        <div class="insight">
+                            🎯 <strong>Nos solutions :</strong><br>
+                            • Options économiques sans compromis sur la qualité<br>
+                            • Élimination des frais cachés<br>
+                            • Services personnalisés selon vos vrais besoins
+                        </div>
+                    `;
+                }
+            } else if (situation === 'no-storage') {
+                analysis = `
+                    <div class="insight">
+                        💡 <strong>Analyse :</strong> Libérer vos locaux principaux peut considérablement améliorer votre productivité.
+                    </div>
+                    <div class="savings-highlight">
+                        💰 <strong>Bénéfices identifiés :</strong> Optimisation de vos espaces de travail + réduction des coûts immobiliers
+                    </div>
+                    <div class="insight">
+                        🎯 <strong>Opportunités :</strong><br>
+                        • Libérer de l'espace pour des activités à plus haute valeur<br>
+                        • Solutions évolutives qui grandissent avec vous<br>
+                        • Accès sécurisé 24/7 à vos biens
+                    </div>
+                `;
+            } else {
+                analysis = `
+                    <div class="insight">
+                        💡 <strong>Analyse :</strong> La consolidation de vos multiples emplacements offre un potentiel d'économies substantiel.
+                    </div>
+                    <div class="savings-highlight">
+                        💰 <strong>Économies potentielles :</strong> 30-40% de réduction en consolidant vos espaces
+                    </div>
+                    <div class="insight">
+                        🎯 <strong>Avantages de la consolidation :</strong><br>
+                        • Gestion simplifiée d'un seul emplacement<br>
+                        • Réduction drastique des frais de transport<br>
+                        • Meilleur contrôle et sécurité de vos biens
+                    </div>
+                `;
+            }
+            
+            document.getElementById('analysisResult').innerHTML = analysis;
+        }
+
+        function submitContact() {
+            const name = document.getElementById('contactName').value;
+            const company = document.getElementById('contactCompany').value;
+            const email = document.getElementById('contactEmail').value;
+            const phone = document.getElementById('contactPhone').value;
+            
+            if (!name || !company || !email || !phone) {
+                alert('Veuillez remplir tous les champs');
+                return;
+            }
+            
+            // Ici vous pourriez envoyer les données à votre serveur
+            alert('Merci ! Nous vous contacterons dans les 24 heures pour votre soumission personnalisée.');
+            
+            // Optionnel : rediriger vers une page de remerciement
+            console.log('Données du prospect:', { name, company, email, phone, answers: userAnswers });
+        }
+
+        // Event listeners pour les options
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.option')) {
+                const option = e.target.closest('.option');
+                const stepElement = option.closest('.step');
+                
+                // Retirer la sélection des autres options de cette étape
+                stepElement.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                
+                // Sélectionner l'option cliquée
+                option.classList.add('selected');
+                
+                // Sauvegarder la réponse
+                const stepId = stepElement.id;
+                const value = option.dataset.value || option.dataset.range;
+                
+                switch(stepId) {
+                    case 'step1':
+                        userAnswers.situation = value;
+                        break;
+                    case 'step2':
+                        userAnswers.costRange = value;
+                        break;
+                    case 'step3':
+                        userAnswers.storageType = value;
+                        break;
+                    case 'step4':
+                        userAnswers.accessFreq = value;
+                        break;
+                }
+            }
+        });
+
+        // Event listener pour la localisation
+        document.getElementById('location').addEventListener('change', function() {
+            userAnswers.location = this.value;
+        });
+
+        // Initialisation
+        updateProgress();
+        updateNavigation();
+    </script>
+</body>
+</html>
