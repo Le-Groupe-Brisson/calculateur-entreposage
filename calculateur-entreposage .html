@@ -349,6 +349,45 @@
             margin-bottom: 20px;
         }
         
+        .lead-capture {
+            background: linear-gradient(135deg, #dc3545, #000000);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .lead-capture h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        
+        .lead-capture p {
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        
+        .privacy-note {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            background: #fef2f2;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            display: none;
+        }
+        
         @media (max-width: 768px) {
             .form-row, .contact-grid, .company-contact {
                 grid-template-columns: 1fr;
@@ -396,8 +435,35 @@
                 <div class="progress-fill" id="progressFill"></div>
             </div>
             
+            <!-- Étape 0: Capture des coordonnées -->
+            <div class="step active" id="step0">
+                <div class="lead-capture">
+                    <h3>🔓 Accédez à votre analyse personnalisée</h3>
+                    <p>Remplissez vos coordonnées pour démarrer votre évaluation gratuite et découvrir vos économies potentielles</p>
+                    
+                    <div class="contact-form" style="background: rgba(255,255,255,0.1); color: white;">
+                        <div class="form-row">
+                            <input type="text" id="leadName" placeholder="Nom complet *" required style="background: white; color: #333;">
+                            <input type="text" id="leadCompany" placeholder="Nom de l'entreprise *" required style="background: white; color: #333;">
+                        </div>
+                        <div class="form-row">
+                            <input type="email" id="leadEmail" placeholder="Courriel professionnel *" required style="background: white; color: #333;">
+                            <input type="tel" id="leadPhone" placeholder="Téléphone *" required style="background: white; color: #333;">
+                        </div>
+                        <div class="error-message" id="leadError"></div>
+                        <button class="btn btn-primary" onclick="submitLeadCapture()" style="width: 100%; margin-top: 20px;" id="startAnalysisBtn">
+                            🚀 Commencer mon analyse gratuite
+                        </button>
+                    </div>
+                    
+                    <div class="privacy-note">
+                        <small>🔒 Vos informations sont 100% confidentielles. Le Groupe Brisson s'engage à respecter votre vie privée et ne partagera jamais vos données.</small>
+                    </div>
+                </div>
+            </div>
+
             <!-- Étape 1: Situation actuelle -->
-            <div class="step active" id="step1">
+            <div class="step" id="step1">
                 <div class="question">
                     <h3><span class="step-number">1</span>Décrivez votre situation d'entreposage actuelle</h3>
                     <div class="options">
@@ -573,7 +639,7 @@
                                 <a href="tel:+14506815115" style="color: white; text-decoration: none;">(450) 681-5115</a>
                             </div>
                             <div class="contact-box">
-                                <strong>Email</strong><br>
+                                <strong>Courriel</strong><br>
                                 <a href="mailto:info@legroupebrisson.com" style="color: white; text-decoration: none;">info@legroupebrisson.com</a>
                             </div>
                             <div class="contact-box">
@@ -591,42 +657,125 @@
                     </div>
                     
                     <div class="cta">
-                        <h3>Optimisez vos coûts avec Le Groupe Brisson</h3>
-                        <p>Contactez nos experts pour une évaluation gratuite de vos besoins d'entreposage</p>
-                    </div>
-                    
-                    <div class="contact-form">
-                        <h4>Recevez votre soumission personnalisée</h4>
-                        <div class="form-row">
-                            <input type="text" id="contactName" placeholder="Nom complet" required>
-                            <input type="text" id="contactCompany" placeholder="Nom de l'entreprise" required>
+                        <h3>Parlons de vos besoins spécifiques</h3>
+                        <p>Nos experts vous contacteront sous peu pour approfondir votre analyse et vous présenter une solution personnalisée.</p>
+                        
+                        <div style="margin-top: 20px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                            <h4>Prochaines étapes :</h4>
+                            <p style="text-align: left; margin-top: 10px;">
+                                ✓ Appel de découverte dans les 24h<br>
+                                ✓ Analyse approfondie de vos besoins<br>
+                                ✓ Proposition personnalisée sous 48h<br>
+                                ✓ Visite de nos installations si désiré
+                            </p>
                         </div>
-                        <div class="form-row">
-                            <input type="email" id="contactEmail" placeholder="Email" required>
-                            <input type="tel" id="contactPhone" placeholder="Téléphone" required>
-                        </div>
-                        <button class="btn btn-primary" onclick="submitContact()" style="width: 100%; margin-top: 20px;">
-                            Obtenir ma soumission gratuite
-                        </button>
                     </div>
                 </div>
             </div>
 
             <div class="navigation">
                 <button class="btn btn-secondary" id="prevBtn" onclick="changeStep(-1)" style="display: none;">Précédent</button>
-                <button class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">Suivant</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="changeStep(1)" style="display: none;">Suivant</button>
             </div>
         </div>
     </div>
 
     <script>
-        let currentStep = 1;
+        let currentStep = 0;
         let totalSteps = 5;
         let userAnswers = {};
+        let leadData = {};
 
         function updateProgress() {
             const progress = (currentStep / totalSteps) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function submitLeadCapture() {
+            const name = document.getElementById('leadName').value.trim();
+            const company = document.getElementById('leadCompany').value.trim();
+            const email = document.getElementById('leadEmail').value.trim();
+            const phone = document.getElementById('leadPhone').value.trim();
+            
+            // Validation
+            if (!name || !company || !email || !phone) {
+                showError('Veuillez remplir tous les champs obligatoires');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                showError('Veuillez entrer une adresse courriel valide');
+                return;
+            }
+            
+            // Sauvegarder les données du lead
+            leadData = { name, company, email, phone };
+            
+            // Afficher le loading
+            const btn = document.getElementById('startAnalysisBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Démarrage...';
+            btn.disabled = true;
+            
+            // Envoyer les données du lead immédiatement
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('company', company);
+            formData.append('email', email);
+            formData.append('phone', phone);
+            formData.append('_subject', 'Nouveau Lead - Calculateur Entreposage - Le Groupe Brisson');
+            formData.append('lead_source', 'Calculateur d\'économies');
+            formData.append('status', 'Lead capturé - En cours d\'analyse');
+            
+            fetch('https://formspree.io/f/xqayzgbj', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                // Peu importe si l'envoi réussit ou échoue, on permet l'accès au calculateur
+                setTimeout(() => {
+                    btn.innerHTML = '✓ Accès accordé !';
+                    setTimeout(() => {
+                        // Passer à la première question
+                        document.getElementById('step0').classList.remove('active');
+                        currentStep = 1;
+                        document.getElementById('step1').classList.add('active');
+                        updateProgress();
+                        updateNavigation();
+                    }, 1000);
+                }, 1000);
+            })
+            .catch(error => {
+                // Même en cas d'erreur, on donne accès
+                console.log('Erreur envoi lead (mais continuons):', error);
+                setTimeout(() => {
+                    btn.innerHTML = '✓ Accès accordé !';
+                    setTimeout(() => {
+                        document.getElementById('step0').classList.remove('active');
+                        currentStep = 1;
+                        document.getElementById('step1').classList.add('active');
+                        updateProgress();
+                        updateNavigation();
+                    }, 1000);
+                }, 1000);
+            });
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('leadError');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
         }
 
         function changeStep(direction) {
@@ -650,7 +799,7 @@
 
         function updateNavigation() {
             document.getElementById('prevBtn').style.display = currentStep > 1 ? 'block' : 'none';
-            document.getElementById('nextBtn').style.display = currentStep <= totalSteps ? 'block' : 'none';
+            document.getElementById('nextBtn').style.display = (currentStep >= 1 && currentStep <= totalSteps) ? 'block' : 'none';
         }
 
         function validateCurrentStep() {
@@ -675,6 +824,33 @@
             document.getElementById('prevBtn').style.display = 'none';
             
             generateAnalysis();
+            
+            // Envoyer les résultats complets
+            sendCompleteAnalysis();
+        }
+        
+        function sendCompleteAnalysis() {
+            const formData = new FormData();
+            formData.append('name', leadData.name);
+            formData.append('company', leadData.company);
+            formData.append('email', leadData.email);
+            formData.append('phone', leadData.phone);
+            formData.append('situation', userAnswers.situation || 'Non spécifié');
+            formData.append('costRange', userAnswers.costRange || 'Non spécifié');
+            formData.append('storageType', userAnswers.storageType || 'Non spécifié');
+            formData.append('accessFreq', userAnswers.accessFreq || 'Non spécifié');
+            formData.append('location', userAnswers.location || 'Non spécifié');
+            formData.append('_subject', 'Analyse Complète - Calculateur Entreposage - ' + leadData.company);
+            formData.append('lead_source', 'Calculateur d\'économies - Analyse complétée');
+            formData.append('status', 'Analyse terminée - Prêt pour suivi commercial');
+            
+            fetch('https://formspree.io/f/xqayzgbj', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
         }
 
         function generateAnalysis() {
@@ -687,11 +863,17 @@
             const storageType = userAnswers.storageType;
             const accessFreq = userAnswers.accessFreq;
             
+            // Message personnalisé avec le nom du lead
+            const personalizedGreeting = `<div class="insight">
+                Bonjour ${leadData.name} de ${leadData.company} !<br>
+                Voici votre analyse personnalisée d'économies d'entreposage.
+            </div>`;
+            
             // Analyse personnalisée sans révéler les prix
             if (situation === 'current-storage') {
                 if (costRange === '3000+') {
                     potentialSavings = 25;
-                    analysis = `
+                    analysis = personalizedGreeting + `
                         <div class="insight">
                             Analyse : Avec vos coûts actuels élevés, nous identifions plusieurs opportunités d'optimisation significatives.
                         </div>
@@ -707,7 +889,7 @@
                     `;
                 } else if (costRange === '1000-3000') {
                     potentialSavings = 20;
-                    analysis = `
+                    analysis = personalizedGreeting + `
                         <div class="insight">
                             Analyse : Votre budget actuel suggère des possibilités d'optimisation intéressantes.
                         </div>
@@ -723,7 +905,7 @@
                     `;
                 } else {
                     potentialSavings = 15;
-                    analysis = `
+                    analysis = personalizedGreeting + `
                         <div class="insight">
                             Analyse : Même avec un budget modeste, des améliorations sont possibles.
                         </div>
@@ -739,7 +921,7 @@
                     `;
                 }
             } else if (situation === 'no-storage') {
-                analysis = `
+                analysis = personalizedGreeting + `
                     <div class="insight">
                         Analyse : Libérer vos locaux principaux peut considérablement améliorer votre productivité.
                     </div>
@@ -754,7 +936,7 @@
                     </div>
                 `;
             } else {
-                analysis = `
+                analysis = personalizedGreeting + `
                     <div class="insight">
                         Analyse : La consolidation de vos multiples emplacements offre un potentiel d'économies substantiel.
                     </div>
@@ -771,58 +953,6 @@
             }
             
             document.getElementById('analysisResult').innerHTML = analysis;
-        }
-
-        function submitContact() {
-            const name = document.getElementById('contactName').value;
-            const company = document.getElementById('contactCompany').value;
-            const email = document.getElementById('contactEmail').value;
-            const phone = document.getElementById('contactPhone').value;
-            
-            if (!name || !company || !email || !phone) {
-                alert('Veuillez remplir tous les champs');
-                return;
-            }
-            
-            // Préparer les données pour Formspree
-            const formData = new FormData();
-            formData.append('name', name);
-            formData.append('company', company);
-            formData.append('email', email);
-            formData.append('phone', phone);
-            formData.append('situation', userAnswers.situation || 'Non spécifié');
-            formData.append('costRange', userAnswers.costRange || 'Non spécifié');
-            formData.append('storageType', userAnswers.storageType || 'Non spécifié');
-            formData.append('accessFreq', userAnswers.accessFreq || 'Non spécifié');
-            formData.append('location', userAnswers.location || 'Non spécifié');
-            formData.append('_subject', 'Nouveau lead - Calculateur d\'entreposage - Le Groupe Brisson');
-            
-            // Afficher le loading
-            document.querySelector('button[onclick="submitContact()"]').innerHTML = 'Envoi en cours...';
-            document.querySelector('button[onclick="submitContact()"]').disabled = true;
-            
-            // Envoyer à Formspree avec votre Form ID
-            fetch('https://formspree.io/f/xqayzgbj', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Merci ! Le Groupe Brisson a reçu votre demande. Nous vous contacterons dans les 24 heures pour votre soumission personnalisée.');
-                    document.querySelector('.contact-form').innerHTML = '<h3 style="color: #dc3545; text-align: center;">✓ Demande envoyée avec succès !</h3><p style="text-align: center;">Le Groupe Brisson vous contactera sous peu.</p>';
-                } else {
-                    throw new Error('Erreur lors de l\'envoi');
-                }
-            })
-            .catch(error => {
-                alert('Erreur lors de l\'envoi. Veuillez réessayer ou nous contacter directement au (450) 681-5115.');
-                console.error('Error:', error);
-                document.querySelector('button[onclick="submitContact()"]').innerHTML = 'Obtenir ma soumission gratuite';
-                document.querySelector('button[onclick="submitContact()"]').disabled = false;
-            });
         }
 
         // Event listeners pour les options
@@ -861,6 +991,11 @@
         // Event listener pour la localisation
         document.getElementById('location').addEventListener('change', function() {
             userAnswers.location = this.value;
+        });
+
+        // Event listener pour l'input des coûts
+        document.getElementById('currentCost').addEventListener('input', function() {
+            userAnswers.currentCost = this.value;
         });
 
         // Initialisation
