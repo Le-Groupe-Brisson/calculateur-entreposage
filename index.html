@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur d'Économies d'Entreposage - Le Groupe Brisson</title>
+    <title>Consultation Gratuite d'Entreposage - Le Groupe Brisson</title>
     <style>
         * {
             margin: 0;
@@ -68,212 +68,169 @@
         }
         
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 2.2em;
+            margin-bottom: 15px;
             font-weight: bold;
+            line-height: 1.3;
         }
         
         .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
+            font-size: 1.15em;
+            opacity: 0.95;
+            line-height: 1.5;
         }
         
         .form-container {
             padding: 40px;
         }
         
-        .step {
-            display: none;
-            animation: fadeIn 0.5s ease-in;
-        }
-        
-        .step.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .question {
-            margin-bottom: 30px;
-        }
-        
-        .question h3 {
-            font-size: 1.4em;
-            color: #000000;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .step-number {
-            background: #3498db;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-weight: bold;
-        }
-        
-        .options {
-            display: grid;
-            gap: 15px;
-        }
-        
-        .option {
+        .consultation-intro {
             background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
             border: 2px solid #e9ecef;
-            border-radius: 10px;
+        }
+        
+        .consultation-intro h3 {
+            color: #28a745;
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .consultation-intro p {
+            color: #555;
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        
+        .benefits-list li {
+            color: #555;
+            font-size: 1.05em;
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.5;
+        }
+        
+        .benefits-list li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+        
+        .value-box {
+            background: linear-gradient(135deg, #dc3545, #000000);
+            color: white;
             padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
+            border-radius: 10px;
+            margin: 25px 0;
+            text-align: center;
         }
         
-        .option:hover {
-            border-color: #dc3545;
-            background: #fef2f2;
-        }
-        
-        .option.selected {
-            border-color: #dc3545;
-            background: #fef2f2;
-            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
-        }
-        
-        .option-icon {
-            font-size: 2em;
-            margin-right: 15px;
-        }
-        
-        .option-text {
-            flex: 1;
-        }
-        
-        .option-title {
-            font-weight: bold;
-            color: #2c3e50;
+        .value-box strong {
+            font-size: 1.2em;
+            display: block;
             margin-bottom: 5px;
         }
         
-        .option-desc {
-            color: #666;
-            font-size: 0.9em;
+        .contact-form {
+            background: white;
+            padding: 0;
+            border-radius: 15px;
         }
         
-        .input-group {
+        .contact-form h4 {
+            color: #000000;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+        
+        .form-group {
             margin-bottom: 20px;
         }
         
-        .input-group label {
+        .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #2c3e50;
+            color: #333;
+            font-size: 1em;
         }
         
-        .input-group input, .input-group select {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
             transition: border-color 0.3s ease;
+            font-family: Arial, sans-serif;
         }
         
-        .input-group input:focus, .input-group select:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
-            border-color: #dc3545;
+            border-color: #28a745;
         }
         
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
+        .form-group textarea {
+            resize: vertical;
         }
         
         .btn {
-            padding: 15px 30px;
+            padding: 18px 40px;
             border: none;
             border-radius: 10px;
-            font-size: 1.1em;
+            font-size: 1.2em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            width: 100%;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #dc3545, #000000);
+            background: #28a745;
             color: white;
         }
         
         .btn-primary:hover {
+            background: #218838;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
         }
         
-        .btn-secondary {
-            background: #666666;
-            color: white;
+        .btn-primary:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
         }
         
-        .btn-secondary:hover {
-            background: #555555;
-        }
-        
-        .progress-bar {
-            height: 6px;
-            background: #e0e0e0;
-            border-radius: 3px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #dc3545, #000000);
-            border-radius: 3px;
-            transition: width 0.5s ease;
-            width: 0%;
-        }
-        
-        .results {
+        .form-footer {
             text-align: center;
-            padding: 40px;
+            margin-top: 20px;
+            font-size: 0.95em;
+            color: #666;
+            line-height: 1.6;
         }
         
-        .results h2 {
-            color: #000000;
-            font-size: 2.2em;
-            margin-bottom: 30px;
-        }
-        
-        .insight {
-            background: linear-gradient(135deg, #666666, #2c2c2c);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 20px 0;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        
-        .savings-highlight {
-            background: linear-gradient(135deg, #dc3545, #000000);
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 20px 0;
-            font-size: 1.3em;
+        .form-footer strong {
+            color: #333;
         }
         
         .company-info {
@@ -316,85 +273,39 @@
             font-style: italic;
         }
         
-        .cta {
-            background: linear-gradient(135deg, #dc3545, #000000);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 30px;
-        }
-        
-        .cta h3 {
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-        
-        .contact-form {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
-        
-        .contact-form h4 {
-            color: #000000;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .lead-capture {
-            background: linear-gradient(135deg, #dc3545, #000000);
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .lead-capture h3 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-        }
-        
-        .lead-capture p {
-            font-size: 1.1em;
-            margin-bottom: 25px;
-            opacity: 0.9;
-        }
-        
-        .privacy-note {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-        
         .error-message {
             color: #dc3545;
             background: #fef2f2;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            font-size: 0.9em;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.95em;
+            display: none;
+            text-align: center;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
             display: none;
         }
         
+        .success-message h3 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+        
         @media (max-width: 768px) {
-            .form-row, .contact-grid, .company-contact {
+            .contact-grid, .company-contact {
                 grid-template-columns: 1fr;
             }
             
             .header h1 {
-                font-size: 2em;
+                font-size: 1.8em;
             }
             
             .form-container {
@@ -403,6 +314,10 @@
             
             .company-branding {
                 padding: 15px;
+            }
+            
+            .consultation-intro {
+                padding: 20px;
             }
         }
     </style>
@@ -426,306 +341,158 @@
                 </div>
             </div>
             
-            <h1>Calculateur d'Économies</h1>
-            <p>Découvrez vos économies potentielles d'entreposage en 2 minutes</p>
+            <h1>Consultation Gratuite d'Entreposage<br>30 Minutes avec un Expert</h1>
+            <p>Obtenez une consultation personnalisée pour optimiser vos coûts d'entreposage et identifier 20-40% d'économies</p>
         </div>
         
         <div class="form-container">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+            <div class="consultation-intro">
+                <h3>💡 Pourquoi une consultation personnalisée ?</h3>
+                
+                <p>Chaque entreprise est unique. Une consultation avec notre expert vous permet d'obtenir des solutions vraiment adaptées à vos besoins spécifiques.</p>
+                
+                <ul class="benefits-list">
+                    <li>Analyse personnalisée de vos coûts actuels d'entreposage</li>
+                    <li>Identification d'opportunités d'économies immédiates (20-40%)</li>
+                    <li>Comparaison avec les meilleures pratiques du marché québécois</li>
+                    <li>Plan d'action concret et sans engagement</li>
+                    <li>30 minutes par téléphone ou vidéo (à votre choix)</li>
+                </ul>
+                
+                <div class="value-box">
+                    <strong>💰 Valeur de la consultation : 300$</strong>
+                    <strong>🎁 Gratuit pour les 20 premières entreprises</strong>
+                    <strong>⏱️ Places limitées</strong>
+                </div>
             </div>
             
-            <!-- Étape 0: Capture des coordonnées -->
-            <div class="step active" id="step0">
-                <div class="lead-capture">
-                    <h3>🔓 Accédez à votre analyse personnalisée</h3>
-                    <p>Remplissez vos coordonnées pour démarrer votre évaluation gratuite et découvrir vos économies potentielles</p>
+            <div class="contact-form">
+                <h4>📅 Réservez votre consultation gratuite</h4>
+                
+                <form id="consultationForm" action="https://formspree.io/f/xqayzgbj" method="POST">
+                    <input type="hidden" name="_subject" value="Nouvelle demande de consultation - Le Groupe Brisson">
+                    <input type="hidden" name="type" value="Consultation gratuite 30 min">
                     
-                    <div class="contact-form" style="background: rgba(255,255,255,0.1); color: white;">
-                        <div class="form-row">
-                            <input type="text" id="leadName" placeholder="Nom complet *" required style="background: white; color: #333;">
-                            <input type="text" id="leadCompany" placeholder="Nom de l'entreprise *" required style="background: white; color: #333;">
-                        </div>
-                        <div class="form-row">
-                            <input type="email" id="leadEmail" placeholder="Courriel professionnel *" required style="background: white; color: #333;">
-                            <input type="tel" id="leadPhone" placeholder="Téléphone *" required style="background: white; color: #333;">
-                        </div>
-                        <div class="error-message" id="leadError"></div>
-                        <button class="btn btn-primary" onclick="submitLeadCapture()" style="width: 100%; margin-top: 20px;" id="startAnalysisBtn">
-                            🚀 Commencer mon analyse gratuite
-                        </button>
+                    <div class="form-group">
+                        <label for="name">Nom complet *</label>
+                        <input type="text" id="name" name="name" required placeholder="Jean Tremblay">
                     </div>
                     
-                    <div class="privacy-note">
-                        <small>🔒 Vos informations sont 100% confidentielles. Le Groupe Brisson s'engage à respecter votre vie privée et ne partagera jamais vos données.</small>
+                    <div class="form-group">
+                        <label for="email">Email professionnel *</label>
+                        <input type="email" id="email" name="email" required placeholder="jean@entreprise.com">
                     </div>
-                </div>
-            </div>
-
-            <!-- Étape 1: Situation actuelle -->
-            <div class="step" id="step1">
-                <div class="question">
-                    <h3><span class="step-number">1</span>Décrivez votre situation d'entreposage actuelle</h3>
-                    <div class="options">
-                        <div class="option" data-value="no-storage">
-                            <div class="option-icon">🏢</div>
-                            <div class="option-text">
-                                <div class="option-title">Pas d'entreposage externe</div>
-                                <div class="option-desc">Tout est stocké dans nos locaux</div>
-                            </div>
-                        </div>
-                        <div class="option" data-value="current-storage">
-                            <div class="option-icon">📦</div>
-                            <div class="option-text">
-                                <div class="option-title">Entreposage externe actuel</div>
-                                <div class="option-desc">Nous louons déjà un espace</div>
-                            </div>
-                        </div>
-                        <div class="option" data-value="multiple-locations">
-                            <div class="option-icon">🏪</div>
-                            <div class="option-text">
-                                <div class="option-title">Plusieurs emplacements</div>
-                                <div class="option-desc">Stockage réparti à différents endroits</div>
-                            </div>
-                        </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Téléphone *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="514-555-1234">
                     </div>
-                </div>
-            </div>
-
-            <!-- Étape 2: Coûts actuels -->
-            <div class="step" id="step2">
-                <div class="question">
-                    <h3><span class="step-number">2</span>Combien dépensez-vous actuellement par mois ?</h3>
-                    <div class="input-group">
-                        <label>Coût mensuel total (incluant loyer, transport, manutention)</label>
-                        <input type="number" id="currentCost" placeholder="Ex: 2500" min="0">
+                    
+                    <div class="form-group">
+                        <label for="company">Nom de l'entreprise *</label>
+                        <input type="text" id="company" name="company" required placeholder="ABC Construction Inc.">
                     </div>
-                    <div class="options">
-                        <div class="option" data-range="0-1000">
-                            <div class="option-icon">💰</div>
-                            <div class="option-text">
-                                <div class="option-title">Moins de 1 000$/mois</div>
-                                <div class="option-desc">Petite entreprise / Stockage minimal</div>
-                            </div>
-                        </div>
-                        <div class="option" data-range="1000-3000">
-                            <div class="option-icon">💵</div>
-                            <div class="option-text">
-                                <div class="option-title">1 000$ - 3 000$/mois</div>
-                                <div class="option-desc">PME / Stockage modéré</div>
-                            </div>
-                        </div>
-                        <div class="option" data-range="3000+">
-                            <div class="option-icon">💸</div>
-                            <div class="option-text">
-                                <div class="option-title">Plus de 3 000$/mois</div>
-                                <div class="option-desc">Grande entreprise / Stockage important</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Étape 3: Type de marchandises -->
-            <div class="step" id="step3">
-                <div class="question">
-                    <h3><span class="step-number">3</span>Que stockez-vous principalement ?</h3>
-                    <div class="options">
-                        <div class="option" data-value="documents">
-                            <div class="option-icon">📋</div>
-                            <div class="option-text">
-                                <div class="option-title">Documents & Archives</div>
-                                <div class="option-desc">Dossiers, boîtes de documents</div>
-                            </div>
-                        </div>
-                        <div class="option" data-value="pallets">
-                            <div class="option-icon">📦</div>
-                            <div class="option-text">
-                                <div class="option-title">Marchandises palettisées</div>
-                                <div class="option-desc">Produits sur palettes</div>
-                            </div>
-                        </div>
-                        <div class="option" data-value="equipment">
-                            <div class="option-icon">⚙️</div>
-                            <div class="option-text">
-                                <div class="option-title">Équipements & Machines</div>
-                                <div class="option-desc">Matériel industriel, outils</div>
-                            </div>
-                        </div>
-                        <div class="option" data-value="mixed">
-                            <div class="option-icon">📊</div>
-                            <div class="option-text">
-                                <div class="option-title">Mixte</div>
-                                <div class="option-desc">Plusieurs types de marchandises</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Étape 4: Fréquence d'accès -->
-            <div class="step" id="step4">
-                <div class="question">
-                    <h3><span class="step-number">4</span>À quelle fréquence accédez-vous à vos biens ?</h3>
-                    <div class="options">
-                        <div class="option" data-value="daily">
-                            <div class="option-icon">🔄</div>
-                            <div class="option-text">
-                                <div class="option-title">Quotidien</div>
-                                <div class="option-desc">Accès tous les jours</div>
-                            </div>
-                        </div>
-                        <div class="option" data-value="weekly">
-                            <div class="option-icon">📅</div>
-                            <div class="option-text">
-                                <div class="option-title">Hebdomadaire</div>
-                                <div class="option-desc">Quelques fois par semaine</div>
-                            </div>
-                        </div>
-                        <div class="option" data-value="monthly">
-                            <div class="option-icon">📆</div>
-                            <div class="option-text">
-                                <div class="option-title">Mensuel</div>
-                                <div class="option-desc">Une à quelques fois par mois</div>
-                            </div>
-                        </div>
-                        <div class="option" data-value="rare">
-                            <div class="option-icon">🗄️</div>
-                            <div class="option-text">
-                                <div class="option-title">Occasionnel</div>
-                                <div class="option-desc">Rarement / Archivage long terme</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Étape 5: Localisation -->
-            <div class="step" id="step5">
-                <div class="question">
-                    <h3><span class="step-number">5</span>Où est située votre entreprise ?</h3>
-                    <div class="input-group">
-                        <label>Ville</label>
-                        <select id="location">
-                            <option value="">Sélectionnez votre ville</option>
-                            <option value="laval">Laval</option>
-                            <option value="montreal">Montréal</option>
-                            <option value="longueuil">Longueuil</option>
-                            <option value="terrebonne">Terrebonne</option>
-                            <option value="repentigny">Repentigny</option>
-                            <option value="saint-jerome">Saint-Jérôme</option>
-                            <option value="other">Autre (région de Montréal)</option>
+                    
+                    <div class="form-group">
+                        <label for="moment">Meilleur moment pour vous appeler</label>
+                        <select id="moment" name="moment">
+                            <option value="">Sélectionnez...</option>
+                            <option value="Matin (9h-12h)">Matin (9h-12h)</option>
+                            <option value="Après-midi (13h-17h)">Après-midi (13h-17h)</option>
+                            <option value="Fin de journée (17h-19h)">Fin de journée (17h-19h)</option>
                         </select>
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="needs">Décrivez brièvement vos besoins (optionnel)</label>
+                        <textarea id="needs" name="needs" rows="4" placeholder="Ex: Entreposage de matériaux de construction, besoin de 5000 pi², livraisons flexibles..."></textarea>
+                    </div>
+                    
+                    <div class="error-message" id="errorMessage"></div>
+                    
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        🎯 RÉSERVER MA CONSULTATION GRATUITE
+                    </button>
+                    
+                    <div class="form-footer">
+                        <strong>🔒 Vos informations sont confidentielles</strong><br>
+                        ✉️ Nous vous contacterons sous 24h pour fixer la consultation<br>
+                        📞 Par téléphone ou vidéoconférence selon votre préférence
+                    </div>
+                </form>
+                
+                <div class="success-message" id="successMessage">
+                    <h3>✅ Demande de consultation reçue !</h3>
+                    <p>Merci pour votre intérêt. Nous vous contacterons dans les prochaines 24 heures pour fixer votre consultation gratuite de 30 minutes.</p>
+                    <p><strong>À très bientôt !</strong></p>
                 </div>
             </div>
-
-            <!-- Résultats -->
-            <div class="step" id="results">
-                <div class="results">
-                    <h2>Vos Résultats Personnalisés</h2>
-                    
-                    <div id="analysisResult">
-                        <!-- Les résultats seront générés ici -->
+            
+            <div class="company-info">
+                <h3>LE GROUPE BRISSON</h3>
+                <p>Votre partenaire de confiance en logistique 3PL</p>
+                
+                <div class="contact-grid">
+                    <div class="contact-box">
+                        <strong>Téléphone</strong><br>
+                        <a href="tel:+14506815115" style="color: white; text-decoration: none;">(450) 681-5115</a>
                     </div>
-                    
-                    <div class="company-info">
-                        <h3>LE GROUPE BRISSON</h3>
-                        <p>Votre partenaire de confiance en logistique 3PL</p>
-                        
-                        <div class="contact-grid">
-                            <div class="contact-box">
-                                <strong>Téléphone</strong><br>
-                                <a href="tel:+14506815115" style="color: white; text-decoration: none;">(450) 681-5115</a>
-                            </div>
-                            <div class="contact-box">
-                                <strong>Courriel</strong><br>
-                                <a href="mailto:info@legroupebrisson.com" style="color: white; text-decoration: none;">info@legroupebrisson.com</a>
-                            </div>
-                            <div class="contact-box">
-                                <strong>Site Web</strong><br>
-                                <a href="https://legroupebrisson.com" target="_blank" style="color: white; text-decoration: none;">legroupebrisson.com</a>
-                            </div>
-                        </div>
-                        
-                        <div class="expertise-list">
-                            ✓ Plus de 20 ans d'expérience<br>
-                            ✓ Solutions logistiques personnalisées<br>
-                            ✓ Gestion d'inventaire et assemblage<br>
-                            ✓ Service client exceptionnel
-                        </div>
+                    <div class="contact-box">
+                        <strong>Courriel</strong><br>
+                        <a href="mailto:info@legroupebrisson.com" style="color: white; text-decoration: none;">info@legroupebrisson.com</a>
                     </div>
-                    
-                    <div class="cta">
-                        <h3>Parlons de vos besoins spécifiques</h3>
-                        <p>Nos experts vous contacteront sous peu pour approfondir votre analyse et vous présenter une solution personnalisée.</p>
-                        
-                        <div style="margin-top: 20px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
-                            <h4>Prochaines étapes :</h4>
-                            <p style="text-align: left; margin-top: 10px;">
-                                ✓ Appel de découverte dans les 24h<br>
-                                ✓ Analyse approfondie de vos besoins<br>
-                                ✓ Proposition personnalisée sous 48h<br>
-                                ✓ Visite de nos installations si désiré
-                            </p>
-                        </div>
+                    <div class="contact-box">
+                        <strong>Site Web</strong><br>
+                        <a href="https://legroupebrisson.com" target="_blank" style="color: white; text-decoration: none;">legroupebrisson.com</a>
                     </div>
                 </div>
-            </div>
-
-            <div class="navigation">
-                <button class="btn btn-secondary" id="prevBtn" onclick="changeStep(-1)" style="display: none;">Précédent</button>
-                <button class="btn btn-primary" id="nextBtn" onclick="changeStep(1)" style="display: none;">Suivant</button>
+                
+                <div class="expertise-list">
+                    ✓ Plus de 20 ans d'expérience<br>
+                    ✓ Solutions logistiques personnalisées<br>
+                    ✓ Gestion d'inventaire et assemblage<br>
+                    ✓ Service client exceptionnel
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        let currentStep = 0;
-        let totalSteps = 5;
-        let userAnswers = {};
-        let leadData = {};
-
-        function updateProgress() {
-            const progress = (currentStep / totalSteps) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-        }
-
-        function submitLeadCapture() {
-            const name = document.getElementById('leadName').value.trim();
-            const company = document.getElementById('leadCompany').value.trim();
-            const email = document.getElementById('leadEmail').value.trim();
-            const phone = document.getElementById('leadPhone').value.trim();
+        document.getElementById('consultationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const form = document.getElementById('consultationForm');
             
             // Validation
-            if (!name || !company || !email || !phone) {
-                showError('Veuillez remplir tous les champs obligatoires');
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const company = document.getElementById('company').value.trim();
+            
+            if (!name || !email || !phone || !company) {
+                errorMessage.textContent = 'Veuillez remplir tous les champs obligatoires';
+                errorMessage.style.display = 'block';
                 return;
             }
             
             if (!validateEmail(email)) {
-                showError('Veuillez entrer une adresse courriel valide');
+                errorMessage.textContent = 'Veuillez entrer une adresse email valide';
+                errorMessage.style.display = 'block';
                 return;
             }
             
-            // Sauvegarder les données du lead
-            leadData = { name, company, email, phone };
+            // Cacher message d'erreur
+            errorMessage.style.display = 'none';
             
-            // Afficher le loading
-            const btn = document.getElementById('startAnalysisBtn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = 'Démarrage...';
-            btn.disabled = true;
+            // Changer le bouton
+            submitBtn.innerHTML = '⏳ Envoi en cours...';
+            submitBtn.disabled = true;
             
-            // Envoyer les données du lead immédiatement
-            const formData = new FormData();
-            formData.append('name', name);
-            formData.append('company', company);
-            formData.append('email', email);
-            formData.append('phone', phone);
-            formData.append('_subject', 'Nouveau Lead - Calculateur Entreposage - Le Groupe Brisson');
-            formData.append('lead_source', 'Calculateur d\'économies');
-            formData.append('status', 'Lead capturé - En cours d\'analyse');
+            // Envoyer le formulaire
+            const formData = new FormData(form);
             
             fetch('https://formspree.io/f/xqayzgbj', {
                 method: 'POST',
@@ -735,272 +502,32 @@
                 }
             })
             .then(response => {
-                // Peu importe si l'envoi réussit ou échoue, on permet l'accès au calculateur
-                setTimeout(() => {
-                    btn.innerHTML = '✓ Accès accordé !';
-                    setTimeout(() => {
-                        // Passer à la première question
-                        document.getElementById('step0').classList.remove('active');
-                        currentStep = 1;
-                        document.getElementById('step1').classList.add('active');
-                        updateProgress();
-                        updateNavigation();
-                    }, 1000);
-                }, 1000);
+                if (response.ok) {
+                    // Succès
+                    form.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    
+                    // Scroll vers le message de succès
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    throw new Error('Erreur lors de l\'envoi');
+                }
             })
             .catch(error => {
-                // Même en cas d'erreur, on donne accès
-                console.log('Erreur envoi lead (mais continuons):', error);
-                setTimeout(() => {
-                    btn.innerHTML = '✓ Accès accordé !';
-                    setTimeout(() => {
-                        document.getElementById('step0').classList.remove('active');
-                        currentStep = 1;
-                        document.getElementById('step1').classList.add('active');
-                        updateProgress();
-                        updateNavigation();
-                    }, 1000);
-                }, 1000);
+                console.error('Erreur:', error);
+                errorMessage.textContent = 'Une erreur est survenue. Veuillez nous contacter directement au (450) 681-5115';
+                errorMessage.style.display = 'block';
+                submitBtn.innerHTML = '🎯 RÉSERVER MA CONSULTATION GRATUITE';
+                submitBtn.disabled = false;
             });
-        }
-        
-        function showError(message) {
-            const errorDiv = document.getElementById('leadError');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 5000);
-        }
+        });
         
         function validateEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(email);
         }
-
-        function changeStep(direction) {
-            // Valider les réponses avant de continuer
-            if (direction > 0 && !validateCurrentStep()) {
-                return;
-            }
-            
-            document.getElementById(`step${currentStep}`).classList.remove('active');
-            currentStep += direction;
-            
-            if (currentStep > totalSteps) {
-                showResults();
-                return;
-            }
-            
-            document.getElementById(`step${currentStep}`).classList.add('active');
-            updateProgress();
-            updateNavigation();
-        }
-
-        function updateNavigation() {
-            document.getElementById('prevBtn').style.display = currentStep > 1 ? 'block' : 'none';
-            document.getElementById('nextBtn').style.display = (currentStep >= 1 && currentStep <= totalSteps) ? 'block' : 'none';
-        }
-
-        function validateCurrentStep() {
-            switch(currentStep) {
-                case 1:
-                    return document.querySelector('#step1 .option.selected') !== null;
-                case 2:
-                    return document.querySelector('#step2 .option.selected') !== null;
-                case 3:
-                    return document.querySelector('#step3 .option.selected') !== null;
-                case 4:
-                    return document.querySelector('#step4 .option.selected') !== null;
-                case 5:
-                    return document.getElementById('location').value !== '';
-            }
-            return true;
-        }
-
-        function showResults() {
-            document.getElementById('results').classList.add('active');
-            document.getElementById('nextBtn').style.display = 'none';
-            document.getElementById('prevBtn').style.display = 'none';
-            
-            generateAnalysis();
-            
-            // Envoyer les résultats complets
-            sendCompleteAnalysis();
-        }
-        
-        function sendCompleteAnalysis() {
-            const formData = new FormData();
-            formData.append('name', leadData.name);
-            formData.append('company', leadData.company);
-            formData.append('email', leadData.email);
-            formData.append('phone', leadData.phone);
-            formData.append('situation', userAnswers.situation || 'Non spécifié');
-            formData.append('costRange', userAnswers.costRange || 'Non spécifié');
-            formData.append('storageType', userAnswers.storageType || 'Non spécifié');
-            formData.append('accessFreq', userAnswers.accessFreq || 'Non spécifié');
-            formData.append('location', userAnswers.location || 'Non spécifié');
-            formData.append('_subject', 'Analyse Complète - Calculateur Entreposage - ' + leadData.company);
-            formData.append('lead_source', 'Calculateur d\'économies - Analyse complétée');
-            formData.append('status', 'Analyse terminée - Prêt pour suivi commercial');
-            
-            fetch('https://formspree.io/f/xqayzgbj', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-        }
-
-        function generateAnalysis() {
-            let analysis = '';
-            let potentialSavings = 0;
-            
-            // Logique d'analyse basée sur les réponses
-            const situation = userAnswers.situation;
-            const costRange = userAnswers.costRange;
-            const storageType = userAnswers.storageType;
-            const accessFreq = userAnswers.accessFreq;
-            
-            // Message personnalisé avec le nom du lead
-            const personalizedGreeting = `<div class="insight">
-                Bonjour ${leadData.name} de ${leadData.company} !<br>
-                Voici votre analyse personnalisée d'économies d'entreposage.
-            </div>`;
-            
-            // Analyse personnalisée sans révéler les prix
-            if (situation === 'current-storage') {
-                if (costRange === '3000+') {
-                    potentialSavings = 25;
-                    analysis = personalizedGreeting + `
-                        <div class="insight">
-                            Analyse : Avec vos coûts actuels élevés, nous identifions plusieurs opportunités d'optimisation significatives.
-                        </div>
-                        <div class="savings-highlight">
-                            Économies potentielles : Jusqu'à ${potentialSavings}% de réduction possible sur vos coûts actuels
-                        </div>
-                        <div class="insight">
-                            Nos recommandations :<br>
-                            • Solutions flexibles adaptées à votre fréquence d'accès<br>
-                            • Optimisation de l'espace selon votre type de marchandises<br>
-                            • Localisation stratégique pour réduire les frais de transport
-                        </div>
-                    `;
-                } else if (costRange === '1000-3000') {
-                    potentialSavings = 20;
-                    analysis = personalizedGreeting + `
-                        <div class="insight">
-                            Analyse : Votre budget actuel suggère des possibilités d'optimisation intéressantes.
-                        </div>
-                        <div class="savings-highlight">
-                            Économies potentielles : ${potentialSavings}% d'économies réalisables
-                        </div>
-                        <div class="insight">
-                            Avantages identifiés :<br>
-                            • Consolidation possible de vos espaces<br>
-                            • Services inclus qui réduisent vos coûts cachés<br>
-                            • Flexibilité pour ajuster selon vos besoins saisonniers
-                        </div>
-                    `;
-                } else {
-                    potentialSavings = 15;
-                    analysis = personalizedGreeting + `
-                        <div class="insight">
-                            Analyse : Même avec un budget modeste, des améliorations sont possibles.
-                        </div>
-                        <div class="savings-highlight">
-                            Optimisation possible : ${potentialSavings}% d'amélioration sur vos coûts actuels
-                        </div>
-                        <div class="insight">
-                            Nos solutions :<br>
-                            • Options économiques sans compromis sur la qualité<br>
-                            • Élimination des frais cachés<br>
-                            • Services personnalisés selon vos vrais besoins
-                        </div>
-                    `;
-                }
-            } else if (situation === 'no-storage') {
-                analysis = personalizedGreeting + `
-                    <div class="insight">
-                        Analyse : Libérer vos locaux principaux peut considérablement améliorer votre productivité.
-                    </div>
-                    <div class="savings-highlight">
-                        Bénéfices identifiés : Optimisation de vos espaces de travail + réduction des coûts immobiliers
-                    </div>
-                    <div class="insight">
-                        Opportunités :<br>
-                        • Libérer de l'espace pour des activités à plus haute valeur<br>
-                        • Solutions évolutives qui grandissent avec vous<br>
-                        • Accès sécurisé 24/7 à vos biens
-                    </div>
-                `;
-            } else {
-                analysis = personalizedGreeting + `
-                    <div class="insight">
-                        Analyse : La consolidation de vos multiples emplacements offre un potentiel d'économies substantiel.
-                    </div>
-                    <div class="savings-highlight">
-                        Économies potentielles : 30-40% de réduction en consolidant vos espaces
-                    </div>
-                    <div class="insight">
-                        Avantages de la consolidation :<br>
-                        • Gestion simplifiée d'un seul emplacement<br>
-                        • Réduction drastique des frais de transport<br>
-                        • Meilleur contrôle et sécurité de vos biens
-                    </div>
-                `;
-            }
-            
-            document.getElementById('analysisResult').innerHTML = analysis;
-        }
-
-        // Event listeners pour les options
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.option')) {
-                const option = e.target.closest('.option');
-                const stepElement = option.closest('.step');
-                
-                // Retirer la sélection des autres options de cette étape
-                stepElement.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
-                
-                // Sélectionner l'option cliquée
-                option.classList.add('selected');
-                
-                // Sauvegarder la réponse
-                const stepId = stepElement.id;
-                const value = option.dataset.value || option.dataset.range;
-                
-                switch(stepId) {
-                    case 'step1':
-                        userAnswers.situation = value;
-                        break;
-                    case 'step2':
-                        userAnswers.costRange = value;
-                        break;
-                    case 'step3':
-                        userAnswers.storageType = value;
-                        break;
-                    case 'step4':
-                        userAnswers.accessFreq = value;
-                        break;
-                }
-            }
-        });
-
-        // Event listener pour la localisation
-        document.getElementById('location').addEventListener('change', function() {
-            userAnswers.location = this.value;
-        });
-
-        // Event listener pour l'input des coûts
-        document.getElementById('currentCost').addEventListener('input', function() {
-            userAnswers.currentCost = this.value;
-        });
-
-        // Initialisation
-        updateProgress();
-        updateNavigation();
     </script>
 </body>
 </html>
+          
+       
